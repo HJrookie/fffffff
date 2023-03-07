@@ -32,18 +32,18 @@ module.exports = {
     host: "0.0.0.0",
     port: 9095,
     open: true,
-    // proxy: {
-    // detail: https://cli.vuejs.org/config/#devserver-proxy
-    // [process.env.VUE_APP_BASE_API]: {
-    //   // target: `http://localhost:8080`,
-    //   target: `http://vue.ruoyi.vip`,
+    proxy: {
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      ["/api"]: {
+        // target: `http://localhost:8080`,
+        target: `http://101.43.217.68:8865`,
 
-    //   changeOrigin: true,
-    //   pathRewrite: {
-    //     ['^' + process.env.VUE_APP_BASE_API]: ''
-    //   }
-    // }
-    // },
+        changeOrigin: true,
+        pathRewrite: {
+          ["/api"]: "",
+        },
+      },
+    },
     disableHostCheck: true,
   },
   css: {

@@ -71,10 +71,10 @@ export const constantRoutes = [
     component: Layout,
     redirect: "index",
     children: [
-      {
-        path: "dashboard",
-        component: () => import("@/views/sjDashboard/index"),
-      },
+      // {
+      //   path: "dashboard",
+      //   component: () => import("@/views/sjDashboard/index"),
+      // },
       {
         path: "index",
         component: () => import("@/views/index"),
@@ -82,119 +82,119 @@ export const constantRoutes = [
         hidden: true,
         meta: { title: "首首页首页页", icon: "dashboard", affix: true },
       },
-      {
-        path: "/baseInfo",
-        component: () => import("@/views/baseInfo/index"),
-        hidden: true,
-      },
-      {
-        path: "/home",
-        component: () => import("@/views/home/index"),
-        hidden: true,
-      },
-      {
-        // 发布管理
-        path: "/fabus",
-        component: () => import("@/views/tasks/index"),
-        hidden: true,
-      },
-      // 任务库
-      {
-        path: "/taskLib",
-        component: () => import("@/views/taskLib/index"),
-        hidden: true,
-      },
-      {
-        path: "/batchFabu",
-        component: () => import("@/views/batchFabu/index"),
-        hidden: true,
-      },
+      // {
+      //   path: "/baseInfo",
+      //   component: () => import("@/views/baseInfo/index"),
+      //   hidden: true,
+      // },
+      // {
+      //   path: "/home",
+      //   component: () => import("@/views/home/index"),
+      //   hidden: true,
+      // },
+      // {
+      //   // 发布管理
+      //   path: "/fabus",
+      //   component: () => import("@/views/tasks/index"),
+      //   hidden: true,
+      // },
+      // // 任务库
+      // {
+      //   path: "/taskLib",
+      //   component: () => import("@/views/taskLib/index"),
+      //   hidden: true,
+      // },
+      // {
+      //   path: "/batchFabu",
+      //   component: () => import("@/views/batchFabu/index"),
+      //   hidden: true,
+      // },
     ],
   },
-  {
-    path: "/stuMenus",
-    component: () => import("@/views/stuMenus/index"),
-    hidden: true,
-  },
+  // {
+  //   path: "/stuMenus",
+  //   component: () => import("@/views/stuMenus/index"),
+  //   hidden: true,
+  // },
   { path: "/rooms", component: () => import("@/views/rooms/index"), hidden: true },
   { path: "/admin", component: () => import("@/views/admin/index"), hidden: true },
   { path: "/roomDetail/:id", component: () => import("@/views/roomDetail/index"), hidden: true },
-  {
-    path: "/student",
-    component: () => import("@/views/student/index"),
-    hidden: true,
-  },
-  {
-    path: "/teacher",
-    component: () => import("@/views/teacher/index"),
-    hidden: true,
-  },
-  {
-    path: "/tea-mob-taskLib",
-    component: () => import("@/views/teacher-mob-taskLib/index"),
-    hidden: true,
-  },
-  {
-    path: "/dazi",
-    component: () => import("@/views/stuMenus/stuMenus/dazi/index"),
-    hidden: true,
-  },
-  {
-    path: "/danci",
-    component: () => import("@/views/stuMenus/stuMenus/danci/index"),
-    hidden: true,
-  },
-  {
-    path: "/ribao",
-    component: () => import("@/views/stuMenus/stuMenus/ribao/index"),
-    hidden: true,
-  },
-  //.file
-  {
-    path: "/xiangmu",
-    component: () => import("@/views/stuMenus/stuMenus/xiangmu/index"),
-    hidden: true,
-  },
-  {
-    path: "/kaoshi",
-    component: () => import("@/views/stuMenus/stuMenus/kaoshi/index"),
-    hidden: true,
-  },
-  {
-    path: "/ketang",
-    component: () => import("@/views/stuMenus/stuMenus/ketang/index"),
-    hidden: true,
-  },
-
-  {
-    path: "/user",
-    component: Layout,
-    hidden: true,
-    redirect: "noredirect",
-    children: [
-      {
-        path: "profile",
-        component: () => import("@/views/system/user/profile/index"),
-        name: "Profile",
-        meta: { title: "个人中心", icon: "user" },
-      },
-    ],
-  },
-  {
-    path: "/resetPassword",
-    name: "resetPassword",
-    component: () => import("../views/register/resetPassword.vue"),
-  },
-  {
-    path: "/institutionReg",
-    name: "InstitutionReg",
-    component: () => import("../views/register/InstitutionRegister.vue"),
-  },
-  {
-    path: "/individualReg",
-    name: "IndividualReg",
-    component: () => import("../views/register/IndividualRegister.vue"),
-  },
+  // {
+  //   path: "/student",
+  //   component: () => import("@/views/student/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/teacher",
+  //   component: () => import("@/views/teacher/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/tea-mob-taskLib",
+  //   component: () => import("@/views/teacher-mob-taskLib/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/dazi",
+  //   component: () => import("@/views/stuMenus/stuMenus/dazi/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/danci",
+  //   component: () => import("@/views/stuMenus/stuMenus/danci/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/ribao",
+  //   component: () => import("@/views/stuMenus/stuMenus/ribao/index"),
+  //   hidden: true,
+  // },
+  // //.file
+  // {
+  //   path: "/xiangmu",
+  //   component: () => import("@/views/stuMenus/stuMenus/xiangmu/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/kaoshi",
+  //   component: () => import("@/views/stuMenus/stuMenus/kaoshi/index"),
+  //   hidden: true,
+  // },
+  // {
+  //   path: "/ketang",
+  //   component: () => import("@/views/stuMenus/stuMenus/ketang/index"),
+  //   hidden: true,
+  // },
+  //
+  // {
+  //   path: "/user",
+  //   component: Layout,
+  //   hidden: true,
+  //   redirect: "noredirect",
+  //   children: [
+  //     {
+  //       path: "profile",
+  //       component: () => import("@/views/system/user/profile/index"),
+  //       name: "Profile",
+  //       meta: { title: "个人中心", icon: "user" },
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: "/resetPassword",
+  //   name: "resetPassword",
+  //   component: () => import("../views/register/resetPassword.vue"),
+  // },
+  // {
+  //   path: "/institutionReg",
+  //   name: "InstitutionReg",
+  //   component: () => import("../views/register/InstitutionRegister.vue"),
+  // },
+  // {
+  //   path: "/individualReg",
+  //   name: "IndividualReg",
+  //   component: () => import("../views/register/IndividualRegister.vue"),
+  // },
 ];
 
 export default new Router({

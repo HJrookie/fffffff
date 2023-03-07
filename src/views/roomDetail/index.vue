@@ -4,12 +4,17 @@
     <div class="widow">窗户</div>
     <div class="room-item" v-for="(item, i) of data" :key="item.name">
       <div class="item-wrapper">
-        <div class="top" @click="showDetail(item)">{{ item.top }}</div>
-        <div class="bottom" @click="showDetail(item)">{{ item.bottom }}</div>
+        <div class="top" @click="showDetail(item)">
+          <div><i class="el-icon-user"> </i>姓名: {{ item.userName }}</div>
+          <div><i class="el-icon-phone"> </i>手机: {{ item.phone }}</div>
+        </div>
+        <!--        <div class="bottom" @click="showDetail(item)">{{ item.bottom }}</div>-->
       </div>
+
+      <!--      {{ info }}-->
     </div>
 
-    <el-drawer title="宿舍" :visible.sync="drawer" direction="btt" :before-close="handleClose" size="50%" class="dddddddd">
+    <el-drawer title="宿舍" :visible.sync="drawer" :direction="direc" :before-close="handleClose" :size="size" class="dddddddd">
       <div class="tips">输入个人信息并确认即可预占该位置</div>
       <el-form ref="form" :model="form" :rules="rules" label-width="60px">
         <el-form-item label="姓名" prop="name">
@@ -33,6 +38,7 @@
 <script>
 import { getRoomDetail, getRooms } from "@/api/user";
 import Update from "./udpate.vue";
+import { isMob } from "@/utils";
 export default {
   name: "RoomDetail",
   components: {
@@ -42,11 +48,14 @@ export default {
     return {
       name: "",
       data: [],
+      info: {},
       drawer: false,
       form: {
         name: "",
         phone: "",
       },
+      direc: isMob() ? "btt" : "rtl",
+      size: isMob() ? "50%" : "30%",
       rules: {
         name: [{ required: true, trigger: "change", message: "请输入姓名" }],
         phone: [{ required: true, trigger: "change", message: "请输入手机" }],
@@ -63,6 +72,9 @@ export default {
       });
     },
     showDetail(item) {
+      if (item.bedId) {
+        return this.$message.warning("该位置已有人");
+      }
       this.drawer = true;
       this.$nextTick(() => {
         this.$refs.form.resetFields();
@@ -79,53 +91,33 @@ export default {
       });
     },
     getDetail() {
-      l(343, this.$route);
       let id = this.$route.params.id;
-      let dat = { id: id };
-      // getRoomDetail(dat)
-      //   .then((res) => {
-      //     // this.$router.push("/roomDetail" + "/" + v.id);
-      //   })
-      //   .catch((err) => {});
-      this.name = "433434";
-      this.data = [
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-        {
-          top: "111",
-          bottom: "22",
-        },
-      ];
+      let dat = { dormId: id };
+
+      getRooms()
+        .then((res) => {
+          this.info = res.find((v) => v.dormId === +id);
+        })
+        .catch((err) => {});
+
+      getRoomDetail(dat)
+        .then((res) => {
+          let _data = res.map((v) => ({
+            ...v,
+            userName: v.userName.slice(0, 1) + "**",
+          }));
+          if (_data.length < this.info.number) {
+            let len = this.info.number - _data.length;
+            for (let i = 0; i < len; i++) {
+              _data.push([]);
+            }
+          }
+          this.data = _data;
+          // this.$router.push("/roomDetail" + "/" + v.id);
+        })
+        .catch((err) => {});
+      // this.name = "433434";
+
       // window.open(href, "_blank");
     },
   },
@@ -160,10 +152,10 @@ export default {
   height: 100%;
   background: #f1f1f1ad;
   text-align: center;
-  padding-top: 100px;
+  padding-top: 40px;
   .room-item {
     transition: all ease-in-out 0.3s;
-    height: 140px;
+    //height: 200px;
     //line-height: 300px;
     text-align: center;
     //border-radius: 10%;
@@ -184,29 +176,34 @@ export default {
       //border-radius: 5%;
       background: #5a5e6624;
       padding: 5px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      //display: flex;
+      //flex-direction: column;
+      //justify-content: space-between;
+    }
+    .top,
+    .bottom {
+      height: 90px;
+      background: #ebf3ef;
+      font-size: 14px;
+      text-align: left;
+      padding: 3px;
+      color: #116f67;
+      i {
+        margin-right: 4px;
+      }
     }
     .top {
-      height: 60px;
-      line-height: 60px;
       //border: 1px solid white;
-      color: black;
-      background: #5a5e663d;
       cursor: pointer;
 
       border-radius: 5%;
     }
     .bottom {
       margin-top: 10px;
-      color: black;
-      height: 60px;
-      line-height: 60px;
       cursor: pointer;
 
       border-radius: 5%;
-      background: rgba(0, 136, 255, 0.08);
+      //background: rgba(0, 136, 255, 0.08);
     }
   }
 }

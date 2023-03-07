@@ -1,9 +1,9 @@
 <template>
   <div class="rooms">
     <div class="room-item" @click="getDetail(item)" v-for="(item, i) of data" :key="item.name + item.id">
-      <div class="name">{{ item.name }}</div>
+      <div class="name">{{ item.dormFloor }} - {{ item.dormName }}</div>
       <div class="widow">窗户</div>
-      <div class="status">{{ item.status }}</div>
+      <div class="status">{{ item.nowNumber }} / {{ item.number }}</div>
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
         id: i + 1,
       })
     );
-    l(9999999, data);
+    // l(9999999, data);
     return {
       data: data,
     };
@@ -36,19 +36,19 @@ export default {
     init() {
       getRooms()
         .then((res) => {
-          // this.data = [];
+          l(454, res);
+          this.data = res;
         })
         .catch((err) => {});
     },
     getDetail(v) {
-      let dat = { id: v.id };
       // getRoomDetail(dat)
       //   .then((res) => {
       //     this.$router.push("/roomDetail" + "/" + v.id);
       //   })
       //   .catch((err) => {});
-
-      this.$router.push("/roomDetail" + "/" + v.id);
+      localStorage.setItem("roomInfo", JSON.stringify(v));
+      this.$router.push("/roomDetail" + "/" + v.dormId);
 
       // window.open(href, "_blank");
     },
@@ -86,12 +86,12 @@ export default {
       color: white;
     }
     .widow {
-      //background: yellow;
+      background: rgba(255, 255, 0, 0.2);
       color: black;
       height: 30px;
     }
     .status {
-      //background: #13ce6694;
+      background: rgba(19, 206, 102, 0.16);
       height: 240px;
       line-height: 240px;
       border-bottom-left-radius: 5%;
@@ -105,7 +105,6 @@ export default {
     .room-item {
       //margin-left: 10px;
       width: 45%;
-
     }
   }
 }

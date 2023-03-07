@@ -305,13 +305,14 @@ export function getketangData(params) {
 
 export function getRooms(params) {
   return request({
-    url: `/task`,
+    url: `/api/user/dormList`,
     method: "get",
     params,
   });
-}export function getRoomDetail(params) {
+}
+export function getRoomDetail(params) {
   return request({
-    url: `/task`,
+    url: `/api/user/dormInfo`,
     method: "get",
     params,
   });
