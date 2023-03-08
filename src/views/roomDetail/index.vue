@@ -4,7 +4,7 @@
     <div class="widow">窗户</div>
     <div class="room-item" v-for="(item, i) of data" :key="item.name">
       <div class="item-wrapper">
-        <div class="top" @click="showDetail(item)">
+        <div class="top" @click="showDetail(item, i)">
           <div><i class="el-icon-user"> </i>姓名: {{ item.userName }}</div>
           <div><i class="el-icon-phone"> </i>手机: {{ item.phone }}</div>
         </div>
@@ -36,20 +36,32 @@
 </template>
 
 <script>
-import { getRoomDetail, getRooms } from "@/api/user";
+import { getRoomDetail, getRooms, saveUser } from "@/api/user";
 import Update from "./udpate.vue";
 import { isMob } from "@/utils";
+import { isMobile } from "@/utils/validate";
 export default {
   name: "RoomDetail",
   components: {
     Update,
   },
   data() {
+    const validPhone = (rule, value, callback) => {
+      if (!value || !value.trim().length) {
+        callback(new Error("请输入手机号"));
+      } else if (!isMobile(value)) {
+        callback(new Error("请输入正确的手机号"));
+      } else {
+        callback();
+      }
+    };
+
     return {
       name: "",
       data: [],
       info: {},
       drawer: false,
+      item: null,
       form: {
         name: "",
         phone: "",
@@ -58,7 +70,7 @@ export default {
       size: isMob() ? "50%" : "30%",
       rules: {
         name: [{ required: true, trigger: "change", message: "请输入姓名" }],
-        phone: [{ required: true, trigger: "change", message: "请输入手机" }],
+        phone: [{ required: true, trigger: "change", validator: validPhone }],
       },
     };
   },
@@ -71,8 +83,10 @@ export default {
         // this.data = [];
       });
     },
-    showDetail(item) {
-      if (item.bedId) {
+    showDetail(item, i) {
+      this.item = { ...item, index: i };
+      l(43, item);
+      if (item.userId) {
         return this.$message.warning("该位置已有人");
       }
       this.drawer = true;
@@ -86,7 +100,25 @@ export default {
     sssave() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-          l(444444444, this.form);
+          let data = {
+            dormId: this.info.dormId,
+            userName: this.form.name,
+            phone: this.form.phone,
+            bedId: this.item.index + 1, // 床号 从 1 开始
+          };
+          l(444444444, this.form, data, this.info, this.item);
+          saveUser(data)
+            .then((res) => {
+              l(4343, res);
+              this.$message.success("操作成功");
+              this.drawer = false;
+              this.getDetail();
+            })
+            .catch((err) => {
+              this.$message.error("操作失败,请重试");
+              this.drawer = false;
+              this.getDetail();
+            });
         }
       });
     },
@@ -96,26 +128,29 @@ export default {
 
       getRooms()
         .then((res) => {
-          this.info = res.find((v) => v.dormId === +id);
+          this.info = (res?.data ?? [])?.find((v) => v.dormId === +id);
+
+          getRoomDetail(dat)
+            .then((res) => {
+              l(434343, res, this.info);
+              let _data = res.data.map((v) => ({
+                ...v,
+                userName: v.userName.slice(0, 1) + "**",
+                phone: v.phone?.slice(0, 3) + "****" + v.phone?.slice(7),
+              }));
+              if (_data.length < this.info.number) {
+                let len = this.info.number - _data.length;
+                for (let i = 0; i < len; i++) {
+                  _data.push([]);
+                }
+              }
+              this.data = _data;
+              // this.$router.push("/roomDetail" + "/" + v.id);
+            })
+            .catch((err) => {});
         })
         .catch((err) => {});
 
-      getRoomDetail(dat)
-        .then((res) => {
-          let _data = res.map((v) => ({
-            ...v,
-            userName: v.userName.slice(0, 1) + "**",
-          }));
-          if (_data.length < this.info.number) {
-            let len = this.info.number - _data.length;
-            for (let i = 0; i < len; i++) {
-              _data.push([]);
-            }
-          }
-          this.data = _data;
-          // this.$router.push("/roomDetail" + "/" + v.id);
-        })
-        .catch((err) => {});
       // this.name = "433434";
 
       // window.open(href, "_blank");

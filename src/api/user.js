@@ -310,6 +310,13 @@ export function getRooms(params) {
     params,
   });
 }
+export function saveUser(data) {
+  return request({
+    url: `/api/user/save`,
+    method: "post",
+    data,
+  });
+}
 export function getRoomDetail(params) {
   return request({
     url: `/api/user/dormInfo`,
@@ -317,6 +324,31 @@ export function getRoomDetail(params) {
     params,
   });
 }
+
+export function addSushe(data) {
+  return request({
+    url: `/api/dorm/add`,
+    method: "put",
+    data,
+  });
+}
+
+export function updatsuseh(data) {
+  return request({
+    url: `/api/dorm/update`,
+    method: "post",
+    data,
+  });
+}
+
+export function deleteSushe(params) {
+  return request({
+    url: `/api/dorm/delete`,
+    method: "get",
+    params,
+  });
+}
+
 export function addketang(params) {
   return request({
     url: `/task`,

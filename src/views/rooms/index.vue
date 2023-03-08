@@ -1,6 +1,6 @@
 <template>
   <div class="rooms">
-    <div class="room-item" @click="getDetail(item)" v-for="(item, i) of data" :key="item.name + item.id">
+    <div class="room-item" @click="getDetail(item)" v-for="(item, i) of data" :key="item.dormId">
       <div class="name">{{ item.dormFloor }} - {{ item.dormName }}</div>
       <div class="widow">窗户</div>
       <div class="status">{{ item.nowNumber }} / {{ item.number }}</div>
@@ -26,7 +26,7 @@ export default {
     );
     // l(9999999, data);
     return {
-      data: data,
+      data: [],
     };
   },
   mounted() {
@@ -37,7 +37,7 @@ export default {
       getRooms()
         .then((res) => {
           l(454, res);
-          this.data = res;
+          this.data = res?.data ?? [];
         })
         .catch((err) => {});
     },
@@ -48,7 +48,9 @@ export default {
       //   })
       //   .catch((err) => {});
       localStorage.setItem("roomInfo", JSON.stringify(v));
-      this.$router.push("/roomDetail" + "/" + v.dormId);
+      if (v.dormId) {
+        this.$router.push("/roomDetail" + "/" + v.dormId);
+      }
 
       // window.open(href, "_blank");
     },
